@@ -14,7 +14,7 @@ final String[] permissions = new String[]{
     Manifest.permission.CALL_PHONE
 };
 ```
-### （2）创建PermissionRequest类并调用request方法
+### （2）创建PermissionRequest类对象并调用request方法
 ``` java
 new PermissionRequest(
     getActivity()
