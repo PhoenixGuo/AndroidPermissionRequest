@@ -22,6 +22,9 @@ public class PermissionRequestListenerWrapper {
         if (mPermissionRequestListener != null) {
             mPermissionRequestListener.onAllowAllPermissions();
         }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Subscribe
@@ -33,6 +36,9 @@ public class PermissionRequestListenerWrapper {
                     onDenySomePermissionsEvent.getDenyPermissions()
             );
         }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Subscribe
@@ -43,6 +49,9 @@ public class PermissionRequestListenerWrapper {
             mPermissionRequestListener.onDenyAndNeverAskAgainSomePermissions(
                     onDenyAndNeverAskAgainSomePermissionsEvent.getDenyAndNeverAskAgainPermissions()
             );
+        }
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
         }
     }
 
