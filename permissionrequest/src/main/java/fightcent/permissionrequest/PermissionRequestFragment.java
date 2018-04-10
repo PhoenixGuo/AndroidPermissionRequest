@@ -26,12 +26,12 @@ public class PermissionRequestFragment extends Fragment {
     private String[] mPermissions;
     private int mRequestCode;
 
-    public static fightcent.permissionrequest.PermissionRequestFragment makeFragment(
+    public static PermissionRequestFragment makeFragment(
             String[] permissions,
             int requestCode
     ) {
-        fightcent.permissionrequest.PermissionRequestFragment permissionRequestFragment
-                = new fightcent.permissionrequest.PermissionRequestFragment();
+        PermissionRequestFragment permissionRequestFragment
+                = new PermissionRequestFragment();
         Bundle arguments = new Bundle();
         arguments.putStringArray(PERMISSIONS, permissions);
         arguments.putInt(REQUEST_CODE, requestCode);
@@ -51,10 +51,12 @@ public class PermissionRequestFragment extends Fragment {
         if (arguments != null) {
             mPermissions = arguments.getStringArray(PERMISSIONS);
             mRequestCode = arguments.getInt(REQUEST_CODE);
-            requestPermissions(
-                    mPermissions,
-                    mRequestCode
-            );
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(
+                        mPermissions,
+                        mRequestCode
+                );
+            }
         }
         return view;
     }
