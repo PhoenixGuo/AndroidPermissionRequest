@@ -16,16 +16,33 @@ public class PermissionRequestListenerWrapper {
     }
 
     @Subscribe
-    public void onReceivedOnHasPermissionsEvent(OnHasPermissionsEvent onHasPermissionsEvent) {
+    public void onReceivedOnAllowAllPermissionsEvent(
+            OnAllowAllPermissionsEvent onAllowAllPermissionsEvent
+    ) {
         if (mPermissionRequestListener != null) {
-            mPermissionRequestListener.onHasPermissions();
+            mPermissionRequestListener.onAllowAllPermissions();
         }
     }
 
     @Subscribe
-    public void onReceivedOnHasNotPermissionsEvent(OnHasNotPermissionsEvent onHasNotPermissionsEvent) {
+    public void onReceivedOnDenySomePermissionsEvent(
+            OnDenySomePermissionsEvent onDenySomePermissionsEvent
+    ) {
         if (mPermissionRequestListener != null) {
-            mPermissionRequestListener.onHasNotPermissions();
+            mPermissionRequestListener.onDenySomePermissions(
+                    onDenySomePermissionsEvent.getDenyPermissions()
+            );
+        }
+    }
+
+    @Subscribe
+    public void onReceivedOnDenyAndNeverAskAgainSomePermissionsEvent(
+            OnDenyAndNeverAskAgainSomePermissionsEvent onDenyAndNeverAskAgainSomePermissionsEvent
+    ) {
+        if (mPermissionRequestListener != null) {
+            mPermissionRequestListener.onDenyAndNeverAskAgainSomePermissions(
+                    onDenyAndNeverAskAgainSomePermissionsEvent.getDenyAndNeverAskAgainPermissions()
+            );
         }
     }
 

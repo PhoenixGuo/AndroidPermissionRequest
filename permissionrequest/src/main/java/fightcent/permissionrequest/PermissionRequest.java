@@ -29,7 +29,7 @@ public class PermissionRequest {
     ) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             //系统低于6.0，无需动态申请权限。直接调用有权限的业务方法
-            permissionRequestListener.onHasPermissions();
+            permissionRequestListener.onAllowAllPermissions();
         } else {
             PermissionRequestListenerWrapper permissionRequestListenerWrapper
                     = new PermissionRequestListenerWrapper(permissionRequestListener);

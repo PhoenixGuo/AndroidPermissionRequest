@@ -7,12 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.LinkedHashSet;
 
 /**
  * Created by andy.guo on 2018/4/9.
@@ -24,7 +25,6 @@ public class PermissionRequestFragment extends Fragment {
     public static final String REQUEST_CODE = "REQUEST_CODE";
     private String[] mPermissions;
     private int mRequestCode;
-    private AlertDialog mAlertDialog;
 
     public static fightcent.permissionrequest.PermissionRequestFragment makeFragment(
             String[] permissions,
@@ -41,7 +41,11 @@ public class PermissionRequestFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(
+            LayoutInflater inflater,
+            ViewGroup container,
+            Bundle savedInstanceState
+    ) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -65,44 +69,37 @@ public class PermissionRequestFragment extends Fragment {
         if (requestCode == mRequestCode) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 int length = grantResults.length;
-                boolean isHasAllPermissions = false;
+                LinkedHashSet<String> denyAndNeverAskAgainPermissions = new LinkedHashSet<>();
+                LinkedHashSet<String> denyPermissions = new LinkedHashSet<>();
                 for (int i = 0; i < length; i++) {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         boolean b = shouldShowRequestPermissionRationale(permissions[i]);
                         if (!b) {
-                            //用户之前拒绝了权限并勾选了不再提醒
-                            showPermissionRequestDialog();
-                            return;
+                            //申请的权限中有权限被拒绝并勾选了不再提示
+                            denyAndNeverAskAgainPermissions.add(permissions[i]);
                         } else {
-                            //没权限
-                            isHasAllPermissions = false;
-                            break;
+                            //申请的权限仅仅是被用户拒绝
+                            denyPermissions.add(permissions[i]);
                         }
-                    } else {
-                        isHasAllPermissions = true;
                     }
                 }
-                if (isHasAllPermissions) {
-                    //有权限
-                    EventBus.getDefault().post(new OnHasPermissionsEvent());
+                if (denyAndNeverAskAgainPermissions.size() > 0) {
+                    //申请的权限中有权限被拒绝并勾选了不再提示
+                    EventBus.getDefault().post(
+                            new OnDenyAndNeverAskAgainSomePermissionsEvent(
+                                    denyAndNeverAskAgainPermissions
+                            )
+                    );
+                } else if (denyPermissions.size() > 0) {
+                    //申请的权限中有权限被拒绝
+                    EventBus.getDefault().post(new OnDenySomePermissionsEvent(
+                            denyPermissions
+                    ));
                 } else {
-                    //没权限
-                    EventBus.getDefault().post(new OnHasNotPermissionsEvent());
+                    //所有申请的权限均被允许
+                    EventBus.getDefault().post(new OnAllowAllPermissionsEvent());
                 }
             }
-        }
-    }
-
-    private void showPermissionRequestDialog() {
-        if (mAlertDialog == null) {
-            mAlertDialog = PermissionRequestDialog.makeDialog(
-                    getActivity(),
-                    null,
-                    R.string.app_name,
-                    R.string.app_name,
-                    R.string.app_name,
-                    R.string.app_name
-            );
         }
     }
 

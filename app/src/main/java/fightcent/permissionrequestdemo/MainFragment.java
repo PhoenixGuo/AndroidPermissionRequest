@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Collection;
+
 import fightcent.permissionrequest.PermissionRequest;
 import fightcent.permissionrequest.PermissionRequestListener;
 
@@ -38,14 +40,34 @@ public class MainFragment extends Fragment {
                 permissions,
                 new PermissionRequestListener() {
                     @Override
-                    public void onHasPermissions() {
-                        Toast toast = Toast.makeText(getContext(), "有权限", Toast.LENGTH_SHORT);
+                    public void onAllowAllPermissions() {
+                        Toast toast = Toast.makeText(
+                                getContext(),
+                                "所有申请的权限均被允许",
+                                Toast.LENGTH_SHORT
+                        );
                         toast.show();
                     }
 
                     @Override
-                    public void onHasNotPermissions() {
-                        Toast toast = Toast.makeText(getContext(), "没权限", Toast.LENGTH_SHORT);
+                    public void onDenySomePermissions(Collection<String> denyPermissions) {
+                        Toast toast = Toast.makeText(
+                                getContext(),
+                                "申请的权限中有权限被拒绝",
+                                Toast.LENGTH_SHORT
+                        );
+                        toast.show();
+                    }
+
+                    @Override
+                    public void onDenyAndNeverAskAgainSomePermissions(
+                            Collection<String> denyAndNeverAskAgainPermissions
+                    ) {
+                        Toast toast = Toast.makeText(
+                                getContext(),
+                                "申请的权限中有权限被拒绝并勾选了不再提示",
+                                Toast.LENGTH_SHORT
+                        );
                         toast.show();
                     }
                 }
