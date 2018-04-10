@@ -1,6 +1,7 @@
 package fightcent.permissionrequest;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Build;
 import android.support.annotation.NonNull;
 
@@ -13,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 public class PermissionRequest {
 
     private static final int REQUEST_CODE = 1990;
+    private static final String FRAGMENT_TAG = "PermissionRequestFragment";
 
     private Activity mActivity;
 
@@ -35,16 +37,20 @@ public class PermissionRequest {
                 EventBus.getDefault().register(permissionRequestListenerWrapper);
             }
 
-            PermissionRequestFragment permissionRequestFragment
-                    = PermissionRequestFragment.makeFragment(REQUEST_CODE);
-
             if (mActivity != null) {
-                mActivity.getFragmentManager().beginTransaction().add(
-                        permissionRequestFragment,
-                        "PermissionRequestFragment"
-                ).commitAllowingStateLoss();
-                mActivity.getFragmentManager().executePendingTransactions();
-
+                PermissionRequestFragment permissionRequestFragment;
+                Fragment fragment = mActivity.getFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+                if (fragment != null && fragment instanceof PermissionRequestFragment) {
+                    permissionRequestFragment = (PermissionRequestFragment) fragment;
+                } else {
+                    permissionRequestFragment
+                            = PermissionRequestFragment.makeFragment(REQUEST_CODE);
+                    mActivity.getFragmentManager().beginTransaction().add(
+                            permissionRequestFragment,
+                            FRAGMENT_TAG
+                    ).commitAllowingStateLoss();
+                    mActivity.getFragmentManager().executePendingTransactions();
+                }
                 if (permissionRequestFragment.isAdded()) {
                     permissionRequestFragment.requestPermissions(
                             permissions,
