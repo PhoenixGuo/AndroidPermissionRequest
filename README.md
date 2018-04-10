@@ -43,3 +43,5 @@ new PermissionRequest(
 ![image](https://github.com/PhoenixGuo/AndroidPermissionRequest/blob/master/gif/DenyAndNeverAsk.gif)
 ### （3）所有权限均被允许
 ![image](https://github.com/PhoenixGuo/AndroidPermissionRequest/blob/master/gif/AllAllow.gif)
+## 3、感谢RxPermissions库
+[RxPermissions](https://github.com/tbruyelle/RxPermissions)
