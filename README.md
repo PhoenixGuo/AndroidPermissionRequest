@@ -12,28 +12,28 @@ final String[] permissions = new String[]{
 ### （2）创建PermissionRequest类并调用request方法
 ``` java
 new PermissionRequest(
-                getActivity()
-        ).request(
-                permissions,
-                new PermissionRequestListener() {
-                    @Override
-                    public void onAllowAllPermissions() {
-                        //所有申请的权限均被允许
-                    }
+    getActivity()
+).request(
+    permissions,
+    new PermissionRequestListener() {
+        @Override
+        public void onAllowAllPermissions() {
+            //所有申请的权限均被允许
+        }
 
-                    @Override
-                    public void onDenySomePermissions(Collection<String> denyPermissions) {
-                        //申请的权限中有权限被拒绝
-                    }
+        @Override
+        public void onDenySomePermissions(Collection<String> denyPermissions) {
+            //申请的权限中有权限被拒绝
+        }
 
-                    @Override
-                    public void onDenyAndNeverAskAgainSomePermissions(
-                            Collection<String> denyAndNeverAskAgainPermissions
-                    ) {
-                        //申请的权限中有权限被拒绝并勾选了不再提示
-                    }
-                }
-        );
+        @Override
+        public void onDenyAndNeverAskAgainSomePermissions(
+            Collection<String> denyAndNeverAskAgainPermissions
+        ) {
+            //申请的权限中有权限被拒绝并勾选了不再提示
+        }
+    }
+);
 ```
 ### （3）在PermissionRequestListener的回调方法中实现自己的业务即可
 ## 2、效果
