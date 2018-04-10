@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PermissionRequestDemo</string>
+    <string name="click_me_request_permissions">点击我去请求权限</string>
+</resources>

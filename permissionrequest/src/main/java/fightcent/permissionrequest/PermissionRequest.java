@@ -12,9 +12,8 @@ import org.greenrobot.eventbus.EventBus;
 
 public class PermissionRequest {
 
-    private static final int REQUEST_CODE = 1000;
+    private static final int REQUEST_CODE = 1990;
 
-    //传入Activity
     private Activity mActivity;
 
     public PermissionRequest(
@@ -28,7 +27,6 @@ public class PermissionRequest {
             @NonNull PermissionRequestListener permissionRequestListener
     ) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            //系统低于6.0，无需动态申请权限。直接调用有权限的业务方法
             permissionRequestListener.onAllowAllPermissions();
         } else {
             PermissionRequestListenerWrapper permissionRequestListenerWrapper
@@ -38,19 +36,23 @@ public class PermissionRequest {
             }
 
             PermissionRequestFragment permissionRequestFragment
-                    = PermissionRequestFragment.makeFragment(
-                    permissions,
-                    REQUEST_CODE
-            );
+                    = PermissionRequestFragment.makeFragment(REQUEST_CODE);
 
             if (mActivity != null) {
                 mActivity.getFragmentManager().beginTransaction().add(
                         permissionRequestFragment,
-                        "PermissionRequestDialogFragment"
-                ).commit();
+                        "PermissionRequestFragment"
+                ).commitAllowingStateLoss();
+                mActivity.getFragmentManager().executePendingTransactions();
+
+                if (permissionRequestFragment.isAdded()) {
+                    permissionRequestFragment.requestPermissions(
+                            permissions,
+                            REQUEST_CODE
+                    );
+                }
             }
         }
-
     }
 
 }

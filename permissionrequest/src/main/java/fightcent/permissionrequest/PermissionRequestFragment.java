@@ -2,7 +2,6 @@ package fightcent.permissionrequest;
 
 import android.app.Fragment;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,19 +20,15 @@ import java.util.LinkedHashSet;
 
 public class PermissionRequestFragment extends Fragment {
 
-    public static final String PERMISSIONS = "PERMISSIONS";
     public static final String REQUEST_CODE = "REQUEST_CODE";
-    private String[] mPermissions;
     private int mRequestCode;
 
     public static PermissionRequestFragment makeFragment(
-            String[] permissions,
             int requestCode
     ) {
         PermissionRequestFragment permissionRequestFragment
                 = new PermissionRequestFragment();
         Bundle arguments = new Bundle();
-        arguments.putStringArray(PERMISSIONS, permissions);
         arguments.putInt(REQUEST_CODE, requestCode);
         permissionRequestFragment.setArguments(arguments);
         return permissionRequestFragment;
@@ -49,14 +44,7 @@ public class PermissionRequestFragment extends Fragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         Bundle arguments = getArguments();
         if (arguments != null) {
-            mPermissions = arguments.getStringArray(PERMISSIONS);
             mRequestCode = arguments.getInt(REQUEST_CODE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(
-                        mPermissions,
-                        mRequestCode
-                );
-            }
         }
         return view;
     }
@@ -103,12 +91,6 @@ public class PermissionRequestFragment extends Fragment {
                 }
             }
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
     }
 
     @Override

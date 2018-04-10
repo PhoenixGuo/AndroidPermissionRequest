@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collection;
@@ -29,11 +30,24 @@ public class MainFragment extends Fragment {
     ) {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_main, null);
-        String[] permissions = new String[]{
+        TextView tvRequestPermissions = view.findViewById(R.id.tv_request_permissions);
+        final String[] permissions = new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA,
                 Manifest.permission.CALL_PHONE
         };
+        tvRequestPermissions.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        requestPermissions(permissions);
+                    }
+                }
+        );
+        return view;
+    }
+
+    private void requestPermissions(String[] permissions) {
         new PermissionRequest(
                 getActivity()
         ).request(
@@ -72,7 +86,6 @@ public class MainFragment extends Fragment {
                     }
                 }
         );
-        return view;
     }
 
 }

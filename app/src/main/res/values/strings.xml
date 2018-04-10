@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PermissionRequestDemo</string>
+    <string name="click_me_request_permissions">Click me to request permissions</string>
 </resources>
