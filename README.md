@@ -5,7 +5,10 @@
 
 **如果该库对你有帮助，欢迎点一下Star，谢谢！**
 
-## 1、如何使用？
+## 1、相关文章链接
+[Android6.0动态权限申请总结](https://blog.csdn.net/arimakisho/article/details/79872502)  
+[2步搞定动态权限：一个优雅的Android6.0动态权限申请库](https://blog.csdn.net/arimakisho/article/details/79862348)
+## 2、如何使用？
 ### （1）声明你需要申请的权限
 ``` java
 final String[] permissions = new String[]{
@@ -40,13 +43,13 @@ new PermissionRequest(
     }
 );
 ```
-## 2、效果
+## 3、效果
 ### （1）有权限被拒绝
 ![image](https://github.com/PhoenixGuo/AndroidPermissionRequest/blob/master/gif/Deny.gif)
 ### （2）有权限被拒绝并勾选了不再提示
 ![image](https://github.com/PhoenixGuo/AndroidPermissionRequest/blob/master/gif/DenyAndNeverAsk.gif)
 ### （3）所有权限均被允许
 ![image](https://github.com/PhoenixGuo/AndroidPermissionRequest/blob/master/gif/AllAllow.gif)
-## 3、感谢RxPermissions库
+## 4、感谢RxPermissions库
 从该库中得到了我所需要的解决方案。
 [RxPermissions](https://github.com/tbruyelle/RxPermissions)
