@@ -40,7 +40,6 @@ new PermissionRequest(
     }
 );
 ```
-### （3）在PermissionRequestListener的回调方法中实现自己的业务即可
 ## 2、效果
 ### （1）有权限被拒绝
 ![image](https://github.com/PhoenixGuo/AndroidPermissionRequest/blob/master/gif/Deny.gif)
